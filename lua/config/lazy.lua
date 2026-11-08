@@ -14,6 +14,18 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- LazyVim normally auto-loads lua/config/{options,keymaps,autocmds}.lua
+-- itself via an rtp-based file-existence check, same mechanism as lazy.nvim's
+-- `import` below. It fails for the same reason: this flake's lua/ dir is
+-- never on &runtimepath. So we require() them explicitly instead. All of
+-- this has to happen BEFORE `require("lazy").setup(...)` runs below --
+-- nixCats only makes this flake's lua/ dir require()-able during this
+-- synchronous block; requiring from a callback/after setup() returns is too
+-- late and silently fails the same way `{ import = "plugins" }` did.
+require("config.options")
+require("config.keymaps")
+require("config.autocmds")
+
 -- NOTE: `{ import = "plugins" }` does NOT work here. lazy.nvim's `import`
 -- resolves plugin directories by globbing `&runtimepath` directly (bypassing
 -- Lua's require() entirely), and nixCats never adds this flake's lua/ dir to
