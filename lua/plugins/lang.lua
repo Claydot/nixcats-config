@@ -14,6 +14,23 @@ return {
         clangd = { mason = false },
         basedpyright = { mason = false },
         ruff = { mason = false },
+        nixd = { mason = false },
+      },
+    },
+  },
+
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = function(_, opts)
+      vim.list_extend(opts.ensure_installed, { "nix" })
+    end,
+  },
+
+  {
+    "stevearc/conform.nvim",
+    opts = {
+      formatters_by_ft = {
+        nix = { "nixfmt" },
       },
     },
   },

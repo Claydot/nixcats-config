@@ -114,6 +114,11 @@
           gdb           # Debugger backend
         ];
 
+        nix = with pkgs; [
+          nixd   # LSP (flake-aware, eval-based completion)
+          nixfmt # Formatter (RFC 166 standard)
+        ];
+
         python = with pkgs; [
           basedpyright  # LSP
           ruff          # Linter + formatter
@@ -205,6 +210,7 @@
           rust = true;
           cpp = true;
           python = true;
+          nix = true;
           debug = true;
 
           # Exposed to lua via nixCats('dap.pythonAdapter'). This is a fixed
